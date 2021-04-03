@@ -6,6 +6,7 @@ import (
 	"github.com/LiveScraper/app/website-scraping/scraper"
 	"github.com/LiveScraper/models"
 	"github.com/LiveScraper/phttp"
+	httpClient2 "github.com/LiveScraper/phttp/client/httpClient"
 	"github.com/gin-gonic/gin"
 	"log"
 	"time"
@@ -62,7 +63,9 @@ func serverCmdF(command *cobra.Command, args []string) error {
 		ValidateHeaders: false,
 	}))
 
-	scraperService := scraper.NewService()
+	httpClient := httpClient2.NewMockHttpClient()
+	documentReader := scraper.NewGoqueryDocumentReader()
+	scraperService := scraper.NewService(httpClient, documentReader)
 	scraper.Handler(r.Group(""), scraperService)
 
 	phttp.GracefullyServe(r, serverConfig)

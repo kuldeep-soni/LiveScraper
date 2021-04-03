@@ -10,6 +10,7 @@ func Handler(r *gin.RouterGroup, s IService) {
 	r.GET("movie/amazon/:amazonId", getAmazonMovieMeta(s))
 }
 
+//how to limit rate of this api?
 func getAmazonMovieMeta(s IService) gin.HandlerFunc{
 	return func(ctx *gin.Context) {
 		amazonId := ctx.Param("amazonId")

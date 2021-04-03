@@ -18,7 +18,6 @@ type ErrorResponse struct {
 type ErrorBody struct {
 	Code     string                 `json:"code"`
 	Message  string                 `json:"message"`
-	MetaData map[string]interface{} `json:"metadata,omitempty"`
 }
 
 func SendPrettifiedSuccessJsonResponse(c *gin.Context, response interface{}) {
