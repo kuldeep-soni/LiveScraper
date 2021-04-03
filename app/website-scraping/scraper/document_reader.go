@@ -15,6 +15,7 @@ type IDocumentReader interface {
 type goqueryDocumentReader struct{}
 
 func (g *goqueryDocumentReader) TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error) {
+	////B00KY1U7GM, B00K19SD8Q, B08MDJPYD9, B08RYBTG7S, B08FMQTK65, B00FCM7N9C
 	readerPointer := strings.NewReader(rawData)
 	doc, err := goquery.NewDocumentFromReader(readerPointer)
 	if err != nil {
