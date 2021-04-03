@@ -3,7 +3,9 @@ package commands
 import (
 	"encoding/json"
 	"github.com/DeanThompson/ginpprof"
+	"github.com/LiveScraper/app/website-scraping/scraper"
 	"github.com/LiveScraper/models"
+	"github.com/LiveScraper/phttp"
 	"github.com/gin-gonic/gin"
 	"log"
 	"time"
@@ -44,25 +46,12 @@ func initServer() {
 }
 
 func serverCmdF(command *cobra.Command, args []string) error {
-
-	//root context this would be passed to each and every call
 	//ctx := context.Background()
-
-	//logger := plog.NewLogger(&plog.LoggerConfiguration{
-	//	EnableConsole: true,
-	//	ConsoleJson:   true,
-	//})
-
-	//Standard logger for this whole service
-	//plog.RedirectStdLog(logger)
 
 	gin.SetMode(serverConfig.Mode)
 	r := gin.New()
 	ginpprof.Wrap(r)
 
-	// Recovery middleware recovers from any panics and writes a 500 if there was one.
-	//r.Use(middleware.RequestLogger(logger.StdLog(plog.String("source", "request_log"))),
-	//	middleware.XRequestID(), middleware.HandleError())
 	r.Use(cors.Middleware(cors.Config{
 		Origins:         "*",
 		Methods:         "GET, PUT, POST, DELETE, PATCH",
@@ -73,7 +62,10 @@ func serverCmdF(command *cobra.Command, args []string) error {
 		ValidateHeaders: false,
 	}))
 
-	models.GracefullyServe(r, serverConfig)
+	scraperService := scraper.NewService()
+	scraper.Handler(r.Group(""), scraperService)
+
+	phttp.GracefullyServe(r, serverConfig)
 
 	return nil
 }
