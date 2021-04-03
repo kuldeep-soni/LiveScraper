@@ -66,7 +66,7 @@ func renderNode(n *html.Node) string {
 	return buf.String()
 }
 
-func main() {
+func main22() {
 	dataBytes, err := ioutil.ReadFile("B00KY1U7GM.txt")
 	if err != nil{
 		fmt.Print(err)

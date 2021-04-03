@@ -1,0 +1,37 @@
+{
+  "server": {
+    "port": 8080,
+    "shutdown_timeout": 10,
+    "mode": "debug",
+    "name": "web-scraper",
+    "monitoring_key": ""
+  },
+  "streaming-services": [
+    {
+      "name": "amazon",
+      "url": "http://www.amazon.de/gp/product",
+      "content-fields": [
+        {
+          "name": "title",
+          "selector": ""
+        },
+        {
+          "name": "release_year",
+          "selector": ""
+        },
+        {
+          "name": "actors",
+          "selector": ""
+        },
+        {
+          "name": "poster",
+          "selector": ""
+        },
+        {
+          "name": "similar_ids",
+          "selector": ""
+        }
+      ]
+    }
+  ]
+}

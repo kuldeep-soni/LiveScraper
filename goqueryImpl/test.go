@@ -88,5 +88,3 @@ func main() {
 	json.Unmarshal(responseBytes, &jsonResponse)
 	fmt.Println(jsonResponse)
 }
-
-//B00FCM7N9C, B08FMQTK65, B08RYBTG7S, B08MDJPYD9
