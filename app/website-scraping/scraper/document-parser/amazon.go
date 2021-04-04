@@ -1,4 +1,4 @@
-package scraper
+package document_parser
 
 import (
 	"context"
@@ -8,13 +8,10 @@ import (
 	"strings"
 )
 
-type IDocumentReader interface {
-	TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error)
+type amazonDocumentParser struct {
 }
 
-type goqueryDocumentReader struct{}
-
-func (g *goqueryDocumentReader) TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error) {
+func (a *amazonDocumentParser) TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error) {
 	////B00KY1U7GM, B00K19SD8Q, B08MDJPYD9, B08RYBTG7S, B08FMQTK65, B00FCM7N9C
 	readerPointer := strings.NewReader(rawData)
 	doc, err := goquery.NewDocumentFromReader(readerPointer)
@@ -22,10 +19,10 @@ func (g *goqueryDocumentReader) TransformRawMovieData(ctx context.Context, rawDa
 		return
 	}
 
-	return g.transformRawMovieData(ctx, doc)
+	return a.transformRawMovieData(ctx, doc)
 }
 
-func (g *goqueryDocumentReader) transformRawMovieData(ctx context.Context, doc *goquery.Document) (meta model.MovieMeta, err error) {
+func (a *amazonDocumentParser) transformRawMovieData(ctx context.Context, doc *goquery.Document) (meta model.MovieMeta, err error) {
 	selection := doc.Find(".DVWebNode-detail-atf-wrapper.DVWebNode")
 
 	title := selection.Find("._2IIDsE._3I-nQy")
@@ -77,6 +74,9 @@ func (g *goqueryDocumentReader) transformRawMovieData(ctx context.Context, doc *
 	return
 }
 
-func NewGoqueryDocumentReader() IDocumentReader{
-	return &goqueryDocumentReader{}
+type amazonMockDocumentParser struct {
+}
+
+func (am *amazonMockDocumentParser) TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error) {
+	panic("implement me")
 }

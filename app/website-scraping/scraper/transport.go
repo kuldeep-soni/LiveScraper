@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"fmt"
+	"github.com/LiveScraper/app/website-scraping/scraper/model"
 	"github.com/LiveScraper/phttp"
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +17,6 @@ import (
 //what is user agent in headers
 //running benchmarks
 //can we use regex for this?
-//css selector vs XPath
 //remove all /n, /t
 //make a complete path of the document
 //what other libraries can be used?
@@ -29,17 +28,16 @@ import (
 //including a service which escapes
 
 func Handler(r *gin.RouterGroup, s IService) {
-	r.GET("movie/amazon/:amazonId", getAmazonMovieMeta(s))
+	r.GET("movie/amazon/:amazonId", getMovieMeta(s, model.Amazon))
 }
 
 //how to limit rate of this api?
-func getAmazonMovieMeta(s IService) gin.HandlerFunc{
+func getMovieMeta(s IService, source model.Source) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		amazonId := ctx.Param("amazonId")
-		fmt.Println(amazonId)
+		movieId := ctx.Param("amazonId")
 
-		meta, err := s.GetMovieMeta(ctx, amazonId)
-		if err != nil{
+		meta, err := s.GetMovieMeta(ctx, source, movieId)
+		if err != nil {
 			phttp.SendFailureResponse(ctx, 500, "ISE500", "Something went wrong")
 			return
 		}
