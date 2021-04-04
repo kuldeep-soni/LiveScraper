@@ -20,6 +20,7 @@ require (
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.4.0
+	github.com/stretchr/testify v1.4.0
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	golang.org/x/net v0.0.0-20210331212208-0fccb6fa2b5c
