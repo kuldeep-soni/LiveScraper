@@ -21,6 +21,6 @@ func (m *mockHttpClient) GetHTMLResource(ctx context.Context, url string) (respo
 	return string(responseBytes), nil
 }
 
-func NewMockHttpClient() IHttpClient {
+func newMockHttpClient() *mockHttpClient {
 	return &mockHttpClient{}
 }

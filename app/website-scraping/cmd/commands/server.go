@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"github.com/DeanThompson/ginpprof"
 	"github.com/LiveScraper/app/website-scraping/scraper"
-	document_parser "github.com/LiveScraper/app/website-scraping/scraper/document-parser"
+	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services"
+	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services/parsers"
 	"github.com/LiveScraper/models"
 	"github.com/LiveScraper/phttp"
-	httpClient2 "github.com/LiveScraper/phttp/client/httpClient"
+	"github.com/LiveScraper/phttp/client/httpClient"
 	"github.com/gin-gonic/gin"
 	"log"
 	"time"
@@ -48,8 +49,6 @@ func initServer() {
 }
 
 func serverCmdF(command *cobra.Command, args []string) error {
-	//ctx := context.Background()
-
 	gin.SetMode(serverConfig.Mode)
 	r := gin.New()
 	ginpprof.Wrap(r)
@@ -64,10 +63,17 @@ func serverCmdF(command *cobra.Command, args []string) error {
 		ValidateHeaders: false,
 	}))
 
-	httpClient := httpClient2.NewMockHttpClient()
-	//pass source and parser type from here, read that from config
-	documentParserFactory := document_parser.NewDocumentParserFactory()
-	scraperService := scraper.NewService(httpClient, documentParserFactory)
+	networkConnector := httpClient.GetIHttpClient(models.GHttpClient)
+
+	documentParserFactory := parsers.NewDocumentParserFactory()
+
+	streamingServiceFactory := streaming_services.NewStreamingServiceFactory(documentParserFactory)
+	err := streamingServiceFactory.SetStreamingServices(*models.GStreamingServices)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	scraperService := scraper.NewService(networkConnector, streamingServiceFactory)
 	scraper.Handler(r.Group(""), scraperService)
 
 	phttp.GracefullyServe(r, serverConfig)

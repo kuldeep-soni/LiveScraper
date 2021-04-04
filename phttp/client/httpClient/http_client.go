@@ -35,6 +35,6 @@ func (h *httpClient) GetHTMLResource(ctx context.Context, url string) (response 
 	return string(dataBytes), nil
 }
 
-func NewHttpClient() IHttpClient {
+func newHttpClient() *httpClient {
 	return &httpClient{}
 }

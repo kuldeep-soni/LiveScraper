@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"github.com/LiveScraper/app/website-scraping/scraper/model"
+	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services"
 	"github.com/LiveScraper/phttp"
 	"github.com/gin-gonic/gin"
 )
@@ -28,15 +28,15 @@ import (
 //including a service which escapes
 
 func Handler(r *gin.RouterGroup, s IService) {
-	r.GET("movie/amazon/:amazonId", getMovieMeta(s, model.Amazon))
+	r.GET("movie/amazon/:amazonId", getMovieMeta(s, streaming_services.Amazon))
 }
 
 //how to limit rate of this api?
-func getMovieMeta(s IService, source model.Source) gin.HandlerFunc {
+func getMovieMeta(s IService, ssName streaming_services.StreamingServiceName) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		movieId := ctx.Param("amazonId")
 
-		meta, err := s.GetMovieMeta(ctx, source, movieId)
+		meta, err := s.GetMovieMeta(ctx, ssName, movieId)
 		if err != nil {
 			phttp.SendFailureResponse(ctx, 500, "ISE500", "Something went wrong")
 			return

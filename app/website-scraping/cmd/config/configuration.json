@@ -10,28 +10,16 @@
     {
       "name": "amazon",
       "url": "http://www.amazon.de/gp/product",
-      "content-fields": [
-        {
-          "name": "title",
-          "selector": ""
-        },
-        {
-          "name": "release_year",
-          "selector": ""
-        },
-        {
-          "name": "actors",
-          "selector": ""
-        },
-        {
-          "name": "poster",
-          "selector": ""
-        },
-        {
-          "name": "similar_ids",
-          "selector": ""
-        }
+      "parser_type": "amazon-parser-1",
+      "parser_type_list": [
+        "amazon-parser-1",
+        "amazon-mock-parser"
       ]
     }
+  ],
+  "http_client": "actual",
+  "http_client_list": [
+    "mock",
+    "actual"
   ]
 }

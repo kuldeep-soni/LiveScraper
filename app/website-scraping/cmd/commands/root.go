@@ -2,7 +2,7 @@ package commands
 
 import (
 	"encoding/json"
-	"fmt"
+	"github.com/LiveScraper/models"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"log"
@@ -17,7 +17,7 @@ func Run(args []string) error {
 
 var RootCmd = &cobra.Command{
 	Use:   "website-scraping",
-	Short: "Service to scrape we pages",
+	Short: "Service to scrape web pages",
 	Long:  `This service is responsible for scraping data from websites and transforming them to useful data`,
 }
 
@@ -34,9 +34,17 @@ func initConfig() {
 		log.Panic("Can't read config, ", err)
 	}
 
-	data, err := json.Marshal(viper.Get("streaming-services"))
+	streamingServicesBytes, err := json.Marshal(viper.Get("streaming-services"))
 	if err != nil{
-		fmt.Println(err)
+		log.Panic("Can't read streaming-services key values, ", err)
 	}
-	fmt.Println(data)
+	pStreamingServices := &models.StreamingServices{}
+	err = json.Unmarshal(streamingServicesBytes, pStreamingServices)
+	if err != nil{
+		log.Panic("Can't unmarshal streaming service data to struct ", err)
+	}
+
+	models.GStreamingServices = pStreamingServices
+
+	models.GHttpClient = viper.GetString("http_client")
 }
