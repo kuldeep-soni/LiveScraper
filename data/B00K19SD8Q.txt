@@ -1932,11 +1932,9 @@ window.$Nav && $Nav.declare('configComplete');
 												<dl>
 													<dt><span class="_36qUej">Hauptdarsteller</span></dt>
 													<dd><a href="/gp/video/search/ref=atv_dp_pd_star?phrase=Dennis%20Quaid&amp;ie=UTF8"
-															class="_1NNx6V">Dennis
-															Quaid</a><span aria-hidden="true"><span class="_36qUej">, </span></span><a
+															class="_1NNx6V">Dennis Quaid</a><span aria-hidden="true"><span class="_36qUej">, </span></span><a
 															href="/gp/video/search/ref=atv_dp_pd_star?phrase=Zac%20Efron&amp;ie=UTF8"
-															class="_1NNx6V">Zac
-															Efron</a><span aria-hidden="true"><span class="_36qUej">, </span></span><a
+															class="_1NNx6V">Zac Efron</a><span aria-hidden="true"><span class="_36qUej">, </span></span><a
 															href="/gp/video/search/ref=atv_dp_pd_star?phrase=Kim%20Dickens&amp;ie=UTF8"
 															class="_1NNx6V">Kim Dickens</a></dd>
 												</dl>

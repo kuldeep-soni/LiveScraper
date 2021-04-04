@@ -17,7 +17,7 @@
       ]
     }
   ],
-  "http_client": "actual",
+  "http_client": "mock",
   "http_client_list": [
     "mock",
     "actual"
