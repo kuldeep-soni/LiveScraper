@@ -47,4 +47,16 @@ func initConfig() {
 	models.GStreamingServices = pStreamingServices
 
 	models.GHttpClient = viper.GetString("http_client")
+
+	userAgentsBytes, err := json.Marshal(viper.Get("user-agents"))
+	if err != nil{
+		log.Panic("Can't read user-agents key values, ", err)
+	}
+	pUserAgents := &models.UserAgents{}
+	err = json.Unmarshal(userAgentsBytes, pUserAgents)
+	if err != nil{
+		log.Panic("Can't unmarshal streaming service data to struct ", err)
+	}
+
+	models.GUserAgents = pUserAgents
 }

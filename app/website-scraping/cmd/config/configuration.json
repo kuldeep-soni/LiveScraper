@@ -17,9 +17,16 @@
       ]
     }
   ],
-  "http_client": "mock",
+  "http_client": "actual",
   "http_client_list": [
     "mock",
     "actual"
+  ],
+  "user-agents": [
+    "Mozilla/5.0",
+    "PostmanRuntime/7.26.10",
+    "AppleWebKit/537.36",
+    "PostmanRuntime/7.9.1",
+    "Chrome/89.0.4389.114"
   ]
 }
