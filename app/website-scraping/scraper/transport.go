@@ -27,8 +27,8 @@ import (
 //what if new data is to be included?
 //including a service which escapes
 
-func Handler(r *gin.RouterGroup, s IService) {
-	r.GET("movie/amazon/:amazonId", getMovieMeta(s, streaming_services.Amazon))
+func StreamingServiceHandler(r *gin.RouterGroup, s IService) {
+	r.GET("amazon/:amazonId", getMovieMeta(s, streaming_services.Amazon))
 }
 
 //how to limit rate of this api?

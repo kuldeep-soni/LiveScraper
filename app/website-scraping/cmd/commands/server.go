@@ -63,7 +63,7 @@ func serverCmdF(command *cobra.Command, args []string) error {
 		ValidateHeaders: false,
 	}))
 
-	networkConnector := httpClient.GetIHttpClient(models.GHttpClient)
+	networkConnector := httpClient.GetIHttpClient(models.GHttpClient, *models.GUserAgents)
 
 	documentParserFactory := parsers.NewDocumentParserFactory()
 
@@ -74,7 +74,7 @@ func serverCmdF(command *cobra.Command, args []string) error {
 	}
 
 	scraperService := scraper.NewService(networkConnector, streamingServiceFactory)
-	scraper.Handler(r.Group(""), scraperService)
+	scraper.StreamingServiceHandler(r.Group("movie/"), scraperService)
 
 	phttp.GracefullyServe(r, serverConfig)
 

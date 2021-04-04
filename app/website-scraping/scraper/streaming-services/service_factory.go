@@ -19,7 +19,7 @@ type streamingServiceFactory struct {
 func (s *streamingServiceFactory) SetStreamingServices(streamingServices models.StreamingServices) (err error) {
 	s.config = make(map[StreamingServiceName]IStreamingService)
 	for _, ss := range streamingServices {
-		sourceName := GetStreamingServiceName(ss.Name)
+		sourceName := s.getStreamingServiceName(ss.Name)
 		parserType := s.parserFactory.GetParserType(ss.ParserType)
 		parser, err := s.parserFactory.GetParser(context.Background(), parserType)
 		if err != nil {
@@ -40,6 +40,14 @@ func (s *streamingServiceFactory) SetStreamingServices(streamingServices models.
 
 func (s *streamingServiceFactory) GetStreamingService(ctx context.Context, name StreamingServiceName) (src IStreamingService) {
 	return s.config[name]
+}
+
+func (s *streamingServiceFactory) getStreamingServiceName(name string) (srcName StreamingServiceName) {
+	switch name {
+	case string(Amazon):
+		return Amazon
+	}
+	return
 }
 
 func NewStreamingServiceFactory(documentParserFactory parsers.IDocumentParserFactory) IStreamingServiceFactory {

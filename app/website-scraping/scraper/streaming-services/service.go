@@ -13,6 +13,7 @@ const (
 )
 
 type IStreamingService interface {
+	GetName() StreamingServiceName
 	GetUrl() string
 	GetMovieMeta(ctx context.Context, rawMovieData string) (meta model.MovieMeta, err error)
 }
@@ -24,18 +25,14 @@ type streamingService struct {
 	documentParser parsers.IDocumentParser
 }
 
+func (s *streamingService) GetName() StreamingServiceName {
+	return s.Name
+}
+
 func (s *streamingService) GetUrl() string {
 	return s.URL
 }
 
 func (s *streamingService) GetMovieMeta(ctx context.Context, rawMovieData string) (meta model.MovieMeta, err error) {
 	return s.documentParser.TransformRawMovieData(ctx, rawMovieData)
-}
-
-func GetStreamingServiceName(name string) (srcName StreamingServiceName) {
-	switch name {
-	case string(Amazon):
-		return Amazon
-	}
-	return
 }
