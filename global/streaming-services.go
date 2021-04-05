@@ -1,4 +1,4 @@
-package models
+package global
 
 var GStreamingServices *StreamingServices
 

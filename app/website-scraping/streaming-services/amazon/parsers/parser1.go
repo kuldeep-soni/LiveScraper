@@ -1,22 +1,23 @@
-package amazon
+package parsers
 
 import (
 	"context"
-	"github.com/LiveScraper/app/website-scraping/scraper/model"
+	"github.com/LiveScraper/app/website-scraping/enums"
+	"github.com/LiveScraper/app/website-scraping/streaming-services/amazon/models"
 	"github.com/PuerkitoBio/goquery"
 	"strconv"
 	"strings"
 )
 
 type amazonDocumentParser1 struct {
+	name enums.ParserType
 }
 
-func GetAmazonDocumentParser1() *amazonDocumentParser1 {
-	return &amazonDocumentParser1{}
+func (a *amazonDocumentParser1) GetName() enums.ParserType {
+	return a.name
 }
 
-func (a *amazonDocumentParser1) TransformRawMovieData(ctx context.Context, rawData string) (meta model.MovieMeta, err error) {
-	////B00KY1U7GM, B00K19SD8Q, B08MDJPYD9, B08RYBTG7S, B08FMQTK65, B00FCM7N9C
+func (a *amazonDocumentParser1) TransformRawMovieData(ctx context.Context, rawData string) (meta models.MovieMetaAmazon, err error) {
 	readerPointer := strings.NewReader(rawData)
 	doc, err := goquery.NewDocumentFromReader(readerPointer)
 	if err != nil {
@@ -26,7 +27,7 @@ func (a *amazonDocumentParser1) TransformRawMovieData(ctx context.Context, rawDa
 	return a.transformRawMovieData(ctx, doc)
 }
 
-func (a *amazonDocumentParser1) transformRawMovieData(ctx context.Context, doc *goquery.Document) (meta model.MovieMeta, err error) {
+func (a *amazonDocumentParser1) transformRawMovieData(ctx context.Context, doc *goquery.Document) (meta models.MovieMetaAmazon, err error) {
 	selection := doc.Find(".DVWebNode-detail-atf-wrapper.DVWebNode")
 
 	title := selection.Find("._2IIDsE._3I-nQy")
@@ -76,4 +77,8 @@ func (a *amazonDocumentParser1) transformRawMovieData(ctx context.Context, doc *
 	}
 
 	return
+}
+
+func GetAmazonDocumentParser1(parserType enums.ParserType) *amazonDocumentParser1 {
+	return &amazonDocumentParser1{name: parserType}
 }

@@ -3,10 +3,10 @@ package commands
 import (
 	"encoding/json"
 	"github.com/DeanThompson/ginpprof"
-	"github.com/LiveScraper/app/website-scraping/scraper"
-	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services"
-	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services/parsers"
-	"github.com/LiveScraper/models"
+	"github.com/LiveScraper/app/website-scraping/transport"
+	"github.com/LiveScraper/app/website-scraping/service"
+	"github.com/LiveScraper/app/website-scraping/streaming-services"
+	"github.com/LiveScraper/global"
 	"github.com/LiveScraper/phttp"
 	"github.com/LiveScraper/phttp/client/httpClient"
 	"github.com/gin-gonic/gin"
@@ -20,7 +20,7 @@ import (
 
 const ServerKey = "server"
 
-var serverConfig *models.Config
+var serverConfig *global.Config
 
 var serverCmd = &cobra.Command{
 	Use:          "server",
@@ -63,18 +63,16 @@ func serverCmdF(command *cobra.Command, args []string) error {
 		ValidateHeaders: false,
 	}))
 
-	networkConnector := httpClient.GetIHttpClient(models.GHttpClient, *models.GUserAgents)
+	networkConnector := httpClient.GetIHttpClient(global.GHttpClient, *global.GUserAgents)
 
-	documentParserFactory := parsers.NewDocumentParserFactory()
-
-	streamingServiceFactory := streaming_services.NewStreamingServiceFactory(documentParserFactory)
-	err := streamingServiceFactory.SetStreamingServices(*models.GStreamingServices)
+	streamingServiceFactory := streaming_services.NewStreamingServiceFactory()
+	err := streamingServiceFactory.SetStreamingServices(*global.GStreamingServices)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	scraperService := scraper.NewService(networkConnector, streamingServiceFactory)
-	scraper.StreamingServiceHandler(r.Group("movie/"), scraperService)
+	scraperService := service.NewScraper(networkConnector, streamingServiceFactory)
+	transport.StreamingServiceHandler(r.Group("movie/"), scraperService)
 
 	phttp.GracefullyServe(r, serverConfig)
 
