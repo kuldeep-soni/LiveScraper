@@ -3,14 +3,14 @@ package phttp
 import (
 	"context"
 	"fmt"
-	"github.com/LiveScraper/models"
+	"github.com/LiveScraper/global"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 )
 
-func GracefullyServe(r http.Handler, conf *models.Config) {
+func GracefullyServe(r http.Handler, conf *global.Config) {
 	//Graceful Shutdown
 	srv := &http.Server{
 		Addr:     conf.Port.ToString(),

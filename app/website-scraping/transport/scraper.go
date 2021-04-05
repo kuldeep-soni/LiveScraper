@@ -1,7 +1,8 @@
-package scraper
+package transport
 
 import (
-	"github.com/LiveScraper/app/website-scraping/scraper/streaming-services"
+	"github.com/LiveScraper/app/website-scraping/enums"
+	"github.com/LiveScraper/app/website-scraping/service"
 	"github.com/LiveScraper/phttp"
 	"github.com/gin-gonic/gin"
 )
@@ -27,16 +28,16 @@ import (
 //what if new data is to be included?
 //including a service which escapes
 
-func StreamingServiceHandler(r *gin.RouterGroup, s IService) {
-	r.GET("amazon/:amazonId", getMovieMeta(s, streaming_services.Amazon))
+func StreamingServiceHandler(r *gin.RouterGroup, s service.IScraper) {
+	r.GET("amazon/:amazonId", getMovieMeta(s, enums.Amazon))
 }
 
 //how to limit rate of this api?
-func getMovieMeta(s IService, ssName streaming_services.StreamingServiceName) gin.HandlerFunc {
+func getMovieMeta(scraperSvc service.IScraper, ssName enums.StreamingServiceName) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		movieId := ctx.Param("amazonId")
 
-		meta, err := s.GetMovieMeta(ctx, ssName, movieId)
+		meta, err := scraperSvc.GetMovieMeta(ctx, ssName, movieId)
 		if err != nil {
 			phttp.SendFailureResponse(ctx, 500, "ISE500", "Something went wrong")
 			return

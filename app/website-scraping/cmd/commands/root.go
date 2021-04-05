@@ -2,7 +2,7 @@ package commands
 
 import (
 	"encoding/json"
-	"github.com/LiveScraper/models"
+	"github.com/LiveScraper/global"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"log"
@@ -38,25 +38,25 @@ func initConfig() {
 	if err != nil{
 		log.Panic("Can't read streaming-services key values, ", err)
 	}
-	pStreamingServices := &models.StreamingServices{}
+	pStreamingServices := &global.StreamingServices{}
 	err = json.Unmarshal(streamingServicesBytes, pStreamingServices)
 	if err != nil{
 		log.Panic("Can't unmarshal streaming service data to struct ", err)
 	}
 
-	models.GStreamingServices = pStreamingServices
+	global.GStreamingServices = pStreamingServices
 
-	models.GHttpClient = viper.GetString("http_client")
+	global.GHttpClient = viper.GetString("http_client")
 
 	userAgentsBytes, err := json.Marshal(viper.Get("user-agents"))
 	if err != nil{
 		log.Panic("Can't read user-agents key values, ", err)
 	}
-	pUserAgents := &models.UserAgents{}
+	pUserAgents := &global.UserAgents{}
 	err = json.Unmarshal(userAgentsBytes, pUserAgents)
 	if err != nil{
 		log.Panic("Can't unmarshal streaming service data to struct ", err)
 	}
 
-	models.GUserAgents = pUserAgents
+	global.GUserAgents = pUserAgents
 }
