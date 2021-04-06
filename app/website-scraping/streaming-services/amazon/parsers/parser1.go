@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+//This is where the actual DOM parsing happens
 type amazonDocumentParser1 struct {
 	name enums.ParserType
 }
@@ -30,10 +31,17 @@ func (a *amazonDocumentParser1) TransformRawMovieData(ctx context.Context, rawDa
 func (a *amazonDocumentParser1) transformRawMovieData(ctx context.Context, doc *goquery.Document) (meta models.MovieMetaAmazon, err error) {
 	selection := doc.Find(".DVWebNode-detail-atf-wrapper.DVWebNode")
 
-	title := selection.Find("._2IIDsE._3I-nQy")
-	dataAutomationId, exists := title.Attr("data-automation-id")
+	titleComponent := selection.Find("._2IIDsE._3I-nQy")
+	dataAutomationId, exists := titleComponent.Attr("data-automation-id")
 	if exists && dataAutomationId == "title" {
-		meta.Title = title.Text()
+		var title string
+		titleArray := strings.Split(titleComponent.Text(), "[")
+		if len(titleArray) == 1{
+			title = titleArray[0]
+		}else{
+			title = strings.Trim(titleArray[0], " ")
+		}
+		meta.Title = title
 	}
 
 	metaInfo := selection.Find("._2IIDsE._30UT8H")

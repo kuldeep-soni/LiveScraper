@@ -48,6 +48,9 @@ func initServer() {
 	}
 }
 
+//Using gin as http framework
+//Attaching pprof endpoints for realtime profiling of application
+//Initialising all structs using global variables
 func serverCmdF(command *cobra.Command, args []string) error {
 	gin.SetMode(serverConfig.Mode)
 	r := gin.New()

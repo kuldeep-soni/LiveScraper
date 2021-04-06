@@ -6,6 +6,8 @@ import (
 	"github.com/LiveScraper/app/website-scraping/model"
 )
 
+//This is a streaming service interface all streaming services must implement.
+//scraper service only knows of IStreamingService
 type IStreamingService interface {
 	GetName() enums.StreamingServiceName
 	GetUrl() string

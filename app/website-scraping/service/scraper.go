@@ -9,10 +9,13 @@ import (
 	"github.com/LiveScraper/phttp/client/httpClient"
 )
 
+//This interface is used by scraper transport layer
 type IScraper interface {
 	GetMovieMeta(ctx context.Context, sourceName enums.StreamingServiceName, movieId string) (model.MovieMeta, error)
 }
 
+//This is the scraper service which fetches documents from streaming service endpoints
+//via networkConnector and coordinates with various streaming services via streamingServiceFactory
 type scraper struct {
 	networkConnector        httpClient.IHttpClient
 	streamingServiceFactory streaming_services.IStreamingServiceFactory
@@ -33,6 +36,7 @@ func (s *scraper) GetMovieMeta(ctx context.Context, streamingServiceName enums.S
 	return streamingService.GetMovieMeta(ctx, resource)
 }
 
+//Initialises scraper service
 func NewScraper(networkConnector httpClient.IHttpClient, streamingServiceFactory streaming_services.IStreamingServiceFactory) IScraper {
 	return &scraper{
 		networkConnector:        networkConnector,
