@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+//Using cobra package as a controller to organise and quickly set up application code
 type Command = cobra.Command
 
 func Run(args []string) error {
@@ -27,6 +28,9 @@ func init() {
 	viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config"))
 }
 
+//Using viper to read data from configuration file
+//This function is fetching data from configuration.json and unmarshalling it into global variables which will be used
+//to initialise structs
 func initConfig() {
 	cfgFile := viper.Get("config").(string)
 	viper.SetConfigFile(cfgFile)

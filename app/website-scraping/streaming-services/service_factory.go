@@ -9,6 +9,8 @@ import (
 	"github.com/LiveScraper/global"
 )
 
+//This factory initialises all streaming services as well as fetches a streaming service by its name
+//It is used by scraper service
 type IStreamingServiceFactory interface {
 	SetStreamingServices(streamingServices global.StreamingServices) (err error)
 	GetStreamingService(ctx context.Context, name enums.StreamingServiceName) (IStreamingService, error)

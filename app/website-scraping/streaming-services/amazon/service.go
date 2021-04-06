@@ -6,6 +6,8 @@ import (
 	"github.com/LiveScraper/app/website-scraping/model"
 )
 
+//This is implementation of IStreamingService for amazon prime germany
+//documentParserFactory fetches a parser based on ParserType
 type amazonStreamingService struct {
 	Name                  enums.StreamingServiceName
 	URL                   string
@@ -21,6 +23,7 @@ func (s *amazonStreamingService) GetUrl() string {
 	return s.URL
 }
 
+//Fetches a parser, transforms raw data (string, a html doc) to AmazonMovieMeta and converts it to MovieMeta
 func (s *amazonStreamingService) GetMovieMeta(ctx context.Context, rawMovieData string) (meta model.MovieMeta, err error) {
 	parser, err := s.documentParserFactory.GetParser(ctx, s.ParserType)
 	if err != nil {

@@ -8,6 +8,7 @@ import (
 	"github.com/LiveScraper/app/website-scraping/streaming-services/amazon/parsers"
 )
 
+//parser factory used by amazon streaming service
 type IAmazonDocumentParserFactory interface {
 	GetParserType(parserType string) (pt enums.ParserType, err error)
 	GetParser(ctx context.Context, parserType enums.ParserType) (parser IAmazonDocumentParser, err error)

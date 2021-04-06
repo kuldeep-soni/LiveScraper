@@ -2,6 +2,7 @@ package global
 
 import "strconv"
 
+//Config stores configuration to start an http server
 type Config struct {
 	Port            port   `json:"port"`
 	ShutdownTimeout int    `json:"shutdown_timeout"`
