@@ -3,7 +3,8 @@ Service that will make a background request, fetch the respective web site, pars
 
 To run this service on your local system follow the below steps in command line:
 1. Clone this repo in your current working directory
-```cd LiveScraper
+```
+cd LiveScraper
 go get -v -t ./...
 go run app/website-scraping/cmd/main.go 
 ```
